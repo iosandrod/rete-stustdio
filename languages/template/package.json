@@ -1,0 +1,30 @@
+{
+  "name": "rete-studio-template-lang",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/rete-studio-template-lang.common.js",
+  "module": "dist/rete-studio-template-lang.esm.js",
+  "types": "dist/_types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/rete-studio-template-lang.esm.js",
+      "require": "./dist/rete-studio-template-lang.common.js",
+      "types": "./dist/_types/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "rete build -c rete.config.ts",
+    "lint": "rete lint"
+  },
+  "author": "Vitaliy Stoliarov",
+  "license": "CC-BY-NC-SA-4.0",
+  "peerDependencies": {
+    "rete": "^2.0.2",
+    "rete-studio-core": "file:../../core/rete-studio-core-0.0.0.tgz"
+  },
+  "devDependencies": {
+    "rete": "^2.0.3",
+    "rete-cli": "^1.0.3",
+    "rete-studio-core": "file:../../core/rete-studio-core-0.0.0.tgz"
+  }
+}
