@@ -6,11 +6,11 @@ import { LanguageAdapter, LanguageSnippet } from 'rete-studio-core';
 import styled from 'styled-components'
 
 import { delay } from '../delay';
-import { createEditor } from '../editor'
+import { createEditor } from '../editor/editor-exports'
 // Domain layer integration
 import { createDomainLayer } from 'rete-studio-core'
 import { Theme } from '../theme';
-import { Debug } from './Debug';
+import { Debug } from './Debug/Debug';
 
 const SaveButton = styled(Button)`
   position: absolute !important;

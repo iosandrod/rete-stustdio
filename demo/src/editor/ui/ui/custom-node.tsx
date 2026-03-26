@@ -1,4 +1,3 @@
-import React from 'react'
 import { RenderEmit, Presets } from 'rete-react-plugin'
 import styled from 'styled-components'
 import { Schemes } from 'rete-studio-core'

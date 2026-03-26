@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React from 'react'
 import styled from 'styled-components'
 import { Socket } from 'rete-studio-core'
 

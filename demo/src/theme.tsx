@@ -1,5 +1,5 @@
-import React from 'react';
 import { ConfigProvider, ThemeConfig } from 'antd';
+import React from 'react';
 
 export const tokens: ThemeConfig['token'] = {
   colorPrimaryBg: '#589ee4',
@@ -24,11 +24,7 @@ export const transparentBgBase = tokens.colorBgBase + '85';
 
 export function Theme(props: { children: React.ReactNode }) {
   return (
-    <ConfigProvider
-      theme={{
-        token: tokens
-      }}
-    >
+    <ConfigProvider theme={{ token: tokens }}>
       {props.children}
     </ConfigProvider>
   )

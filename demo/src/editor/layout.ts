@@ -5,7 +5,7 @@ import { Schemes, BaseNode } from 'rete-studio-core'
 import { NodeEditor } from 'rete'
 import { ArrangeAppliers, AutoArrangePlugin, Presets as ArrangePresets } from 'rete-auto-arrange-plugin'
 import { InnerPorts } from './inner-ports'
-import { AreaExtra } from '.'
+import { AreaExtra } from './editor-exports'
 import { ElkNode } from 'elkjs'
 
 // eslint-disable-next-line no-inner-declarations

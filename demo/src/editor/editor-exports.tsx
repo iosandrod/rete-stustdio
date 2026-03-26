@@ -20,7 +20,7 @@ import { items as contextMenuItems } from './context-menu'
 import { addCustomBackground } from './custom-background'
 import { useInnerPorts } from './inner-ports'
 import { createArrangePlugin, innerPortWidth, layout, padding } from './layout'
-import * as UI from './ui'
+import * as UI from './ui/ui'
 import { areConnected, debugNodes } from './utils'
 
 export type AreaExtra = ReactArea2D<Schemes> | ContextMenuExtra

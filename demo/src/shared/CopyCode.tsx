@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { DeliveredProcedureOutlined } from '@ant-design/icons'
 import { Button, Tooltip, message } from 'antd';

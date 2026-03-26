@@ -1,4 +1,3 @@
-import React from 'react'
 import { css } from 'styled-components'
 import { Presets as ReactPresets, Drag } from 'rete-react-plugin'
 import { Node, selectedShadow } from './custom-node'

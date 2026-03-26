@@ -1,5 +1,5 @@
 import { ThemeConfig } from 'antd'
-import { Theme } from '../..'
+import { tokens as outerTokens } from '../../../theme'
 
 export const tokens: ThemeConfig['token'] = {
   colorTextBase: 'white',
@@ -17,7 +17,7 @@ export const tokens: ThemeConfig['token'] = {
 }
 
 export const contextMenuToken: ThemeConfig['token'] = {
-  ...Theme.tokens
+  ...outerTokens
 }
 
 export const components: ThemeConfig['components'] = {

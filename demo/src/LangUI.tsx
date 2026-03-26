@@ -1,7 +1,5 @@
-import React from 'react'
 import styled from 'styled-components'
 import { Select } from 'antd';
-import { Theme } from './theme';
 
 const SwitchSelect = styled(Select)`
   position: absolute !important;
@@ -27,16 +25,14 @@ type Props = {
 
 export function SwitchLang(props: Props) {
   return (
-    <Theme>
-      <SwitchSelect
-        size='small'
-        value={props.lang || defaultLang}
-        onChange={(value: any) => props.setLang(value as string)}
-        style={{ width: 110 }}
-        options={props.languages.map(({ name, key }) => {
-          return { label: name, value: key }
-        })}
-      />
-    </Theme>
+    <SwitchSelect
+      size='small'
+      value={props.lang || defaultLang}
+      onChange={(value: any) => props.setLang(value as string)}
+      style={{ width: 110 }}
+      options={props.languages.map(({ name, key }) => {
+        return { label: name, value: key }
+      })}
+    />
   )
 }
