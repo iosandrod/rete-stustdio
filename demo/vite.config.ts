@@ -8,14 +8,14 @@ export default defineConfig({
     'process.env.JS_EXAMPLES': JSON.stringify('[]'),
     'process.version': '""'
   },
-  // resolve: {
-  //   alias: [
-  //     {
-  //       find: "antd/lib",
-  //       replacement: "antd/es",
-  //     }
-  //   ],
-  // },
+  resolve: {
+    alias: [
+      {
+        find: "rete-react-plugin",
+        replacement: "/src/rete-react-plugin/rete-react-plugin.esm.js",
+      }
+    ],
+  },
   plugins: [
     react(),
     nodePolyfills({
