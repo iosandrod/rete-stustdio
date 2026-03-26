@@ -1,0 +1,34 @@
+{
+  "name": "rete-studio-vue",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vue/runtime-dom": "^3.4.0",
+    "ant-design-vue": "^4.1.0",
+    "elkjs": "^0.8.2",
+    "rete": "^2.0.3",
+    "rete-area-plugin": "^2.0.2",
+    "rete-auto-arrange-plugin": "^2.0.1",
+    "rete-connection-plugin": "^2.0.1",
+    "rete-connection-reroute-plugin": "^2.0.1",
+    "rete-context-menu-plugin": "^2.0.1",
+    "rete-history-plugin": "^2.0.1",
+    "rete-render-utils": "^2.0.2",
+    "rete-scopes-plugin": "^2.0.1",
+    "rete-structures": "^2.0.1",
+    "rete-vue-plugin": "file:../rete-vue-plugin",
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "typescript": "^5.0.2",
+    "vite": "^5.2.11",
+    "vue-tsc": "^2.0.0"
+  }
+}

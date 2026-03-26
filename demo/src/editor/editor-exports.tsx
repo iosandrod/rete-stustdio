@@ -21,23 +21,12 @@ import { addCustomBackground } from './custom-background'
 import { useInnerPorts } from './inner-ports'
 import { createArrangePlugin, innerPortWidth, layout, padding } from './layout'
 import * as UI from './ui/ui'
-import { areConnected, debugNodes } from './utils'
+import { areConnected } from './utils'
 
 export type AreaExtra = ReactArea2D<Schemes> | ContextMenuExtra
 
 async function graphFromCode(code: string, language: LanguageAdapter, editor: NodeEditor<Schemes>, area: AreaPlugin<Schemes, AreaExtra>) {
   const data = await language.codeToGraph(code)
-
-  if (!data) throw new Error('Failed to parse code')
-
-  await editor.clear()
-  await deserialize(editor, data)
-
-  applyInteraction(editor, id => area.update('node', id))
-}
-
-async function graphFromSnapshot(direction: 'up' | 'down', id: string, language: LanguageAdapter, editor: NodeEditor<Schemes>, area: AreaPlugin<Schemes, AreaExtra>) {
-  const data = await language._applySnapshot(direction, id)
 
   if (!data) throw new Error('Failed to parse code')
 
@@ -267,8 +256,6 @@ export async function createEditor(
 
   area.use(scopes)
 
-  debugNodes(editor, area)
-
   editor.addPipe(c => {
     if (c.type === 'connectioncreate') {
       if (areConnected(editor, c.data.target, c.data.source)) c.data.isLoop = true
@@ -279,23 +266,12 @@ export async function createEditor(
   return {
     async codeToGraph(code: string) {
       await graphFromCode(code, language, editor, area)
-      console.log('layout:', await layout(editor, area, arrange, innerPorts, true))
+      await layout(editor, area, arrange, innerPorts, true)
     },
     async graphToCode() {
       const data = serialize(editor)
       const code = await language.graphToCode(data)
-
       return code
-    },
-    debug: {
-      async graphFromSnapshot(direction: 'up' | 'down', id: string) {
-        console.log({ direction, id })
-        await graphFromSnapshot(direction, id, language, editor, area)
-        console.log('layout:', await layout(editor, area, arrange, innerPorts, true))
-      },
-      async getTransformerNames() {
-        return language._getTransformerNames()
-      }
     },
     async codeToExecutable(code: string) {
       return language.codeToExecutable(code)

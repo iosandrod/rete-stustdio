@@ -1,16 +1,13 @@
-import { BugOutlined, CodeFilled, LayoutFilled } from '@ant-design/icons'
+import { CodeFilled, LayoutFilled } from '@ant-design/icons'
 import { Button, Tooltip } from 'antd'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRete } from 'rete-react-plugin';
 import { LanguageAdapter, LanguageSnippet } from 'rete-studio-core';
 import styled from 'styled-components'
+import { createEditor } from '../editor/editor-exports'
+import { Theme } from '../theme';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-import { createEditor } from '../editor/editor-exports'
-// Domain layer integration
-import { createDomainLayer } from 'rete-studio-core'
-import { Theme } from '../theme';
-import { Debug } from './Debug/Debug';
 
 const SaveButton = styled(Button)`
   position: absolute !important;
@@ -24,13 +21,6 @@ const LayoutButton = styled(Button)`
   right: 1em;
   z-index: 1;
 `
-const DebugButton = styled(Button)`
-  position: absolute !important;
-  bottom: 1em;
-  left: 1em;
-  z-index: 1;
-`
-
 
 function useTask(props: { execute: () => unknown | Promise<unknown>, fail: () => unknown | Promise<unknown> }) {
   const [loading, setLoading] = useState(false)
@@ -55,28 +45,15 @@ function useTask(props: { execute: () => unknown | Promise<unknown>, fail: () =>
   }
 }
 
-// eslint-disable-next-line max-statements
 export function useEditor(props: { lang: LanguageAdapter, code: string | undefined, autoCode?: boolean }) {
   const [snippets, setSnippets] = useState<LanguageSnippet[]>([])
-  const domainLayerRef = React.useRef<{ store: any; bridge: any } | null>(null)
-  // Initialize domain layer once per editor lifecycle
-  if (domainLayerRef.current === null) {
-    try {
-      // Create domain layer lazily
-      domainLayerRef.current = (createDomainLayer as any)()
-    } catch {
-      domainLayerRef.current = null
-    }
-  }
 
   const create = useCallback((container: HTMLElement) => {
-    const dl = domainLayerRef.current ?? undefined
-    return createEditor(container, snippets, props.lang, dl as any)
-  }, [domainLayerRef, snippets, props.lang])
+    return createEditor(container, snippets, props.lang)
+  }, [snippets, props.lang])
   const [ref, editor] = useRete(create)
   const [code, setCode] = useState<string | undefined>()
   const [executableCode, setExecutableCode] = useState<undefined | string>()
-  const [isDebug, setDebug] = useState(false)
 
   useEffect(() => {
     props.lang.getSnippets().then(setSnippets)
@@ -101,12 +78,10 @@ export function useEditor(props: { lang: LanguageAdapter, code: string | undefin
   const graphToCode = useTask({
     async execute() {
       if (!editor) return
-
       const [, code] = await Promise.all([
         delay(400),
         editor.graphToCode()
       ])
-
       setCode(code)
     },
     fail: () => setCode('// can\'t transpile graph into code')
@@ -119,14 +94,7 @@ export function useEditor(props: { lang: LanguageAdapter, code: string | undefin
         if (props.autoCode !== false) await graphToCode.execute()
       }()
     }
-
   }, [editor, props.code])
-
-  const [transformerNames, setTransformerNames] = useState<string[] | undefined>()
-
-  useEffect(() => {
-    if (editor) editor.debug.getTransformerNames().then(setTransformerNames)
-  }, [editor])
 
   return {
     codeToGraph,
@@ -135,15 +103,6 @@ export function useEditor(props: { lang: LanguageAdapter, code: string | undefin
     executableCode,
     canvas: (
       <Theme>
-        {isDebug && transformerNames && (
-          <Debug
-            transformerNames={transformerNames}
-            loadSnapshot={(direction, name) => editor?.debug.graphFromSnapshot(direction, name)
-            } />
-        )}
-        <Tooltip placement="top" title="Debug mode">
-          <DebugButton onClick={() => setDebug(!isDebug)} icon={<BugOutlined />} />
-        </Tooltip>
         <Tooltip placement="bottom" title="To code">
           <SaveButton onClick={graphToCode.execute} icon={<CodeFilled />} />
         </Tooltip>
