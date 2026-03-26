@@ -5,7 +5,7 @@ import { useRete } from 'rete-react-plugin';
 import { LanguageAdapter, LanguageSnippet } from 'rete-studio-core';
 import styled from 'styled-components'
 
-import { delay } from '../delay';
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 import { createEditor } from '../editor/editor-exports'
 // Domain layer integration
 import { createDomainLayer } from 'rete-studio-core'

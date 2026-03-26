@@ -5,13 +5,74 @@ import React, { useEffect, useState } from 'react';
 import { LanguageAdapter } from 'rete-studio-core';
 import styled from 'styled-components';
 import { useDebounceValue } from 'usehooks-ts'
-
-import { CodeError } from './shared/Alert';
-import { Area } from './shared/Area';
-import { CopyCode } from './shared/CopyCode';
+import { Spin as AntSpin } from 'antd'
+import { DeliveredProcedureOutlined } from '@ant-design/icons'
+import { Button, Tooltip, message, Alert } from 'antd';
 import { useEditor } from './shared/Editor';
-import { Spin } from './shared/Spin'
 import { Theme } from './theme';
+
+// Inline Alert component
+const StyledAlert = styled(Alert)`
+  position: absolute;
+  bottom: 1em;
+  z-index: 14;
+`
+function CodeError(props: { message: string, placement: 'left' | 'right' }) {
+  return <StyledAlert
+    type='error'
+    message={props.message}
+    showIcon={true}
+    style={props.placement === 'left' ? { left: '1em' } : { right: '1em' }}
+  />
+}
+
+// Inline Spin component
+const Spin = styled(AntSpin)`
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 2;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: none !important;
+`
+
+// Inline Area component
+const Area = styled.div`
+  border-radius: 1em;
+  overflow: hidden;
+  border: 2px solid #464646;
+  background: #1e1e1e;
+  color: white;
+`
+
+// Inline CopyCode component
+const CopyButton = styled(Button)`
+  position: absolute !important;
+  bottom: 1em;
+  right: 1em;
+  z-index: 20;
+`
+function CopyCode(props: { value: string }) {
+  const [messageApi, contextHolder] = message.useMessage({ top: 20 });
+  return (
+    <Theme>
+      {contextHolder}
+      <Tooltip placement="top" title="Copy executable code">
+        <CopyButton
+          onClick={() => {
+            navigator.clipboard.writeText(props.value)
+            messageApi.info('Copied to clipboard')
+          }}
+          icon={<DeliveredProcedureOutlined />}
+        />
+      </Tooltip>
+    </Theme>
+  )
+}
 
 const Layout = styled.div`
   display: grid;
