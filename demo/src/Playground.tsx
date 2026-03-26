@@ -3,7 +3,6 @@ import { Editor } from '@monaco-editor/react';
 import { editor as monaco } from 'monaco-editor';
 import { useEffect, useState, useCallback } from 'react';
 import { LanguageAdapter, LanguageSnippet } from 'rete-studio-core';
-import styled from 'styled-components';
 import { useDebounceValue } from 'usehooks-ts'
 import { Spin as AntSpin } from 'antd'
 import { DeliveredProcedureOutlined, CodeFilled, LayoutFilled } from '@ant-design/icons'
@@ -12,58 +11,28 @@ import { useRete } from 'rete-react-plugin';
 import { createEditor } from './editor'
 import { Theme } from './theme';
 
-// Inline Alert component
-const StyledAlert = styled(Alert)`
-  position: absolute;
-  bottom: 1em;
-  z-index: 14;
-`
-function CodeError(props: { message: string, placement: 'left' | 'right' }) {
-  return <StyledAlert
-    type='error'
-    message={props.message}
-    showIcon={true}
-    style={props.placement === 'left' ? { left: '1em' } : { right: '1em' }}
-  />
+type CodeErrorProps = { message: string, placement: 'left' | 'right' }
+function CodeError(props: CodeErrorProps) {
+  return (
+    <Alert
+      type='error'
+      message={props.message}
+      showIcon={true}
+      className="absolute bottom-4 z-14"
+      style={props.placement === 'left' ? { left: '1em' } : { right: '1em' }}
+    />
+  )
 }
 
-// Inline Spin component
-const Spin = styled(AntSpin)`
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  z-index: 2;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  pointer-events: none !important;
-`
-
-// Inline Area component
-const Area = styled.div`
-  border-radius: 1em;
-  overflow: hidden;
-  border: 2px solid #464646;
-  background: #1e1e1e;
-  color: white;
-`
-
-// Inline CopyCode component
-const CopyButton = styled(Button)`
-  position: absolute !important;
-  bottom: 1em;
-  right: 1em;
-  z-index: 20;
-`
-function CopyCode(props: { value: string }) {
+type CopyCodeProps = { value: string }
+function CopyCode(props: CopyCodeProps) {
   const [messageApi, contextHolder] = message.useMessage({ top: 20 });
   return (
     <Theme>
       {contextHolder}
       <Tooltip placement="top" title="Copy executable code">
-        <CopyButton
+        <Button
+          className="absolute bottom-4 right-4 z-20"
           onClick={() => {
             navigator.clipboard.writeText(props.value)
             messageApi.info('Copied to clipboard')
@@ -74,20 +43,6 @@ function CopyCode(props: { value: string }) {
     </Theme>
   )
 }
-
-// Editor buttons
-const SaveButton = styled(Button)`
-  position: absolute !important;
-  top: 1em;
-  right: 1em;
-  z-index: 1;
-`
-const LayoutButton = styled(Button)`
-  position: absolute !important;
-  bottom: 1em;
-  right: 1em;
-  z-index: 1;
-`
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -167,59 +122,24 @@ function useEditor(props: { lang: LanguageAdapter, code: string | undefined, aut
     canvas: (
       <Theme>
         <Tooltip placement="bottom" title="To code">
-          <SaveButton onClick={graphToCode.execute} icon={<CodeFilled />} />
+          <Button
+            className="absolute top-4 right-4 z-10"
+            onClick={graphToCode.execute}
+            icon={<CodeFilled />}
+          />
         </Tooltip>
         <Tooltip placement="top" title="Layout">
-          <LayoutButton onClick={() => editor?.layout()} icon={<LayoutFilled />} />
+          <Button
+            className="absolute bottom-4 right-4 z-10"
+            onClick={() => editor?.layout()}
+            icon={<LayoutFilled />}
+          />
         </Tooltip>
         <div ref={ref} style={{ height: '100%', width: '100%' }} />
       </Theme>
     )
   }
 }
-
-const LayoutGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 2fr 3fr;
-  grid-template-areas:
-    'source result'
-    'canvas canvas';
-  gap: 0.6em;
-  padding: 0.6em;
-  box-sizing: border-box;
-  overflow: hidden;
-  @media (max-height: 500px) {
-    grid-template-columns: minmax(300px, 1fr) 3fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-      'source canvas'
-      'result canvas';
-  }
-  @media (max-width: 400px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 2fr 1fr;
-    grid-template-areas:
-      'source'
-      'canvas'
-      'result';
-  }
-`
-
-const Source = styled(Area)`
-  grid-area: source;
-  position: relative;
-`
-
-const Result = styled(Area)`
-  grid-area: result;
-  position: relative;
-`
-
-const Canvas = styled(Area)`
-  grid-area: canvas;
-  position: relative;
-`
 
 export function Playground({ lang, example, switchLang }: { switchLang: React.ReactNode, example: string, lang: LanguageAdapter }) {
   const [code, setCode] = useState<string | undefined>()
@@ -237,23 +157,32 @@ export function Playground({ lang, example, switchLang }: { switchLang: React.Re
 
   return (
     <Theme>
-      <LayoutGrid>
-        <Source>
+      <div className="grid grid-cols-2 grid-rows-2 gap-2 p-2 box-border overflow-hidden" style={{ gridTemplateAreas: "'source result' 'canvas canvas'" }}>
+        <div className="rounded-lg overflow-hidden border-2 border-[#464646] bg-[#1e1e1e] text-white relative" style={{ gridArea: 'source' }}>
           <Editor theme="vs-dark" language="javascript" value={code} onChange={setCode} options={options} />
           {switchLang}
           {editor.codeToGraph.status && <CodeError message={editor.codeToGraph.status?.message} placement="right" />}
-        </Source>
-        <Result>
-          <Spin spinning={editor.graphToCode.loading} />
+        </div>
+
+        <div className="rounded-lg overflow-hidden border-2 border-[#464646] bg-[#1e1e1e] text-white relative" style={{ gridArea: 'result' }}>
+          <AntSpin
+            spinning={editor.graphToCode.loading}
+            className="!absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none !z-10"
+          />
           <Editor theme="vs-dark" language="javascript" value={editor.code} options={{ readOnly: true, ...options }} />
           <CopyCode value={editor.executableCode || ''} />
           {editor.graphToCode.status && <CodeError message={editor.graphToCode.status?.message} placement="right" />}
-        </Result>
-        <Canvas>
-          <Spin spinning={editor.codeToGraph.loading} size="large" />
+        </div>
+
+        <div className="rounded-lg overflow-hidden border-2 border-[#464646] bg-[#1e1e1e] text-white relative" style={{ gridArea: 'canvas' }}>
+          <AntSpin
+            spinning={editor.codeToGraph.loading}
+            size="large"
+            className="!absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none !z-10"
+          />
           {editor.canvas}
-        </Canvas>
-      </LayoutGrid>
+        </div>
+      </div>
     </Theme>
   )
 }

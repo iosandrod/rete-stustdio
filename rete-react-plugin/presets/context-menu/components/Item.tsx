@@ -1,27 +1,8 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
 import { useDebounce } from '../hooks'
-import { CommonStyle } from '../styles'
 import { Customize, Item } from '../types'
 import { $width } from '../vars'
-
-export const ItemStyle = styled(CommonStyle) <{ hasSubitems?: boolean }>`
-    ${props => props.hasSubitems && css`&:after {
-    content: '►';
-    position: absolute;
-    opacity: 0.6;
-    right: 5px;
-    top: 5px;
-    }`}
-`
-
-export const SubitemStyles = styled.div`
-    position: absolute;
-    top: 0;
-    left: 100%;
-    width: ${$width}px;
-`
 
 type Props = {
   data: Item
@@ -37,41 +18,44 @@ export function ItemElement(props: Props) {
     setVisibleSubitems(false)
   }, [setVisibleSubitems])
   const [hide, cancelHide] = useDebounce(setInvisibile, props.delay)
-  const Component = props.components?.item?.(props.data) || ItemStyle
-  const Subitems = props.components?.subitems?.(props.data) || SubitemStyles
 
-  return <Component
-    onClick={(e: React.MouseEvent) => {
-      e.stopPropagation()
-      props.data.handler()
-      props.hide()
-    }}
-    hasSubitems={Boolean(props.data.subitems)}
-    onPointerDown={(e: React.PointerEvent) => {
-      e.stopPropagation()
-    }}
-    onPointerOver={() => {
-      cancelHide()
-      setVisibleSubitems(true)
-    }}
-    onPointerLeave={() => {
-      if (hide) hide()
-    }}
-    data-testid="context-menu-item"
-  >
-    {props.children}
-    {props.data.subitems && visibleSubitems && (
-      <Subitems>
-        {props.data.subitems.map(item => (
-          <ItemElement
-            key={item.key}
-            data={item}
-            delay={props.delay}
-            hide={props.hide}
-            components={props.components}
-          >{item.label}</ItemElement>
-        ))}
-      </Subitems>
-    )}
-  </Component>
+  return (
+    <div
+      className="text-white p-1 border-b border-[#222] bg-[#333] cursor-pointer w-full relative first:rounded-tl-[8px] first:rounded-tr-[8px] last:rounded-bl-[8px] last:rounded-br-[8px] hover:bg-[#444]"
+      onClick={(e: React.MouseEvent) => {
+        e.stopPropagation()
+        props.data.handler()
+        props.hide()
+      }}
+      onPointerDown={(e: React.PointerEvent) => {
+        e.stopPropagation()
+      }}
+      onPointerOver={() => {
+        cancelHide()
+        setVisibleSubitems(true)
+      }}
+      onPointerLeave={() => {
+        if (hide) hide()
+      }}
+      data-testid="context-menu-item"
+    >
+      {props.children}
+      {props.data.subitems && visibleSubitems && (
+        <div
+          className="absolute top-0 left-full w-[${$width}px]"
+          style={{ width: $width }}
+        >
+          {props.data.subitems.map(item => (
+            <ItemElement
+              key={item.key}
+              data={item}
+              delay={props.delay}
+              hide={props.hide}
+              components={props.components}
+            >{item.label}</ItemElement>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }

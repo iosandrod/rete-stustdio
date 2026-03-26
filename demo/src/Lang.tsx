@@ -1,13 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import styled from 'styled-components'
 import { Select } from 'antd';
-
-const SwitchSelect = styled(Select)`
-  position: absolute !important;
-  bottom: 1em;
-  right: 1em;
-  z-index: 20;
-`
 
 const defaultLang = 'javascript'
 
@@ -34,10 +26,11 @@ type SwitchLangProps = {
 
 export function SwitchLangBase(props: SwitchLangProps) {
   return (
-    <SwitchSelect
+    <Select
       size='small'
       value={props.lang || defaultLang}
       onChange={(value: any) => props.setLang(value as string)}
+      className="absolute bottom-4 right-4 z-20"
       style={{ width: 110 }}
       options={props.languages.map(({ name, key }) => {
         return { label: name, value: key }

@@ -1,22 +1,10 @@
 import * as React from 'react'
-import styled from 'styled-components'
 
 import { useDrag } from '../../shared/drag'
 import { Position } from '../../types'
 import { Pin as PinType } from './types'
 
 const pinSize = 20
-
-const Styles = styled.div<{ selected?: boolean }>`
-  width: ${pinSize}px;
-  height: ${pinSize}px;
-  box-sizing: border-box;
-  background: ${props => props.selected
-    ? '#ffd92c'
-    : 'steelblue'};
-  border: 2px solid white;
-  border-radius: ${pinSize}px;
-`
 
 type Props = PinType & {
   contextMenu(): void
@@ -32,7 +20,15 @@ export function Pin(props: Props) {
   const { x, y } = props.position
 
   return (
-    <Styles
+    <div
+      className={`box-border border-2 border-white rounded-full ${props.selected ? 'bg-[#ffd92c]' : 'bg-steelblue'}`}
+      style={{ 
+        width: pinSize, 
+        height: pinSize, 
+        position: 'absolute', 
+        top: `${y - pinSize / 2}px`, 
+        left: `${x - pinSize / 2}px` 
+      }}
       onPointerDown={(e: React.PointerEvent) => {
         e.stopPropagation()
         e.preventDefault()
@@ -44,11 +40,7 @@ export function Pin(props: Props) {
         e.preventDefault()
         props.contextMenu()
       }}
-      selected={props.selected}
-      style={{ position: 'absolute', top: `${y - pinSize / 2}px`, left: `${x - pinSize / 2}px` }}
       data-testid="pin"
-    >
-
-    </Styles>
+    />
   )
 }

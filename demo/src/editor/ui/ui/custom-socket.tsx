@@ -1,67 +1,37 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import styled from 'styled-components'
 import { Socket } from 'rete-studio-core'
 
 const $socketmargin = 8
 const $socketsize = 20
 
-const Styles = styled.div`
-    display: inline-block;
-    cursor: pointer;
-    border: 1px solid white;
-    border-radius: ${$socketsize / 2.0}px;
-    width: ${$socketsize}px;
-    height: ${$socketsize}px;
-    vertical-align: middle;
-    background: #ffffff47;// #e8e8e8;
-    z-index: 2;
-    box-sizing: border-box;
-    &:hover {
-      border-width: 4px;
-    }
-    &.multiple {
-      border-color: yellow;
-    }
-`
-
-const Hoverable = styled.div`
-    border-radius: ${($socketsize + $socketmargin * 2) / 2.0}px;
-    padding: ${$socketmargin}px;
-    display: inline-flex;
-    &:hover ${Styles} {
-      border-width: 4px;
-    }
-`
-
 export function CustomSocket<T extends Socket>(props: { data: T }) {
   return (
-    // @ts-ignore
-    <Hoverable>
-      {/* @ts-ignore */}
-      <Styles title={props.data.name} />
-    </Hoverable>
+    <div
+      className="inline-flex p-2 rounded-[18px] hover:border-4 hover:border-white"
+      style={{ display: 'inline-flex', padding: $socketmargin }}
+    >
+      <div
+        title={props.data.name}
+        className="inline-block cursor-pointer border border-white rounded-full bg-white/[0.28] w-5 h-5 align-middle box-border z-20 hover:border-[4px]"
+      />
+    </div>
   )
 }
 
-const Svg = styled.svg`
-  stroke: white;
-  fill: #ffffff47;
-  stroke-width: 1px;
-  stroke-linejoin: round;
-  :hover {
-    stroke-width: 5px;
-  }
-`
-
-
 export function ControlSocketComponent<T extends Socket>(_props: { data: T }) {
   return (
-    // @ts-ignore
-    <Hoverable>
-      {/* @ts-ignore */}
-      <Svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 25 24" width={$socketsize} height={$socketsize}>
+    <div
+      className="inline-flex p-2 rounded-[18px]"
+      style={{ display: 'inline-flex', padding: $socketmargin }}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="-2 -2 25 24"
+        className="fill-white/[0.28] stroke-white stroke-1 hover:stroke-[5px]"
+        style={{ width: $socketsize, height: $socketsize, strokeLinejoin: 'round' }}
+      >
         <path d="M0,0 L10,0 L20,10 L10,20 L0,20 Z" />
-      </Svg>
-    </Hoverable>
+      </svg>
+    </div>
   )
 }

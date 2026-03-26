@@ -1,19 +1,10 @@
 import * as React from 'react'
-import styled from 'styled-components'
 
 import { useDebounce } from '../hooks'
-import { CommonStyle } from '../styles'
 import { Customize, Item } from '../types'
 import { $width } from '../vars'
 import { ItemElement } from './Item'
 import { Search } from './Search'
-
-export const Styles = styled.div`
-  padding: 10px;
-  width: ${$width}px;
-  margin-top: -20px;
-  margin-left: -${$width / 2}px;
-`
 
 type Props = {
   items: Item[]
@@ -28,36 +19,38 @@ export function Menu(props: Props) {
   const [filter, setFilter] = React.useState('')
   const filterRegexp = new RegExp(filter, 'i')
   const filteredList = props.items.filter(item => item.label.match(filterRegexp))
-  const Component = props.components?.main?.() || Styles
-  const Common = props.components?.common?.() || CommonStyle
 
-  return <Component
-    onMouseOver={() => {
-      cancelHide()
-    }}
-    onMouseLeave={() => {
-      hide?.()
-    }}
-    onWheel={(e: React.WheelEvent) => {
-      e.stopPropagation()
-    }}
-    data-testid="context-menu"
-  >
-    {props.searchBar && (
-      <Common>
-        <Search value={filter} onChange={setFilter} component={props.components?.search?.()} />
-      </Common>
-    )}
-    {filteredList.map(item => {
-      return <ItemElement
-        key={item.key}
-        data={item}
-        delay={props.delay}
-        hide={props.onHide}
-        components={props.components}
-      >
-        {item.label}
-      </ItemElement>
-    })}
-  </Component>
+  return (
+    <div
+      className="p-2.5 box-border"
+      style={{ width: $width, marginTop: '-20px', marginLeft: -$width / 2 }}
+      onMouseOver={() => {
+        cancelHide()
+      }}
+      onMouseLeave={() => {
+        hide?.()
+      }}
+      onWheel={(e: React.WheelEvent) => {
+        e.stopPropagation()
+      }}
+      data-testid="context-menu"
+    >
+      {props.searchBar && (
+        <div className="text-white p-1 border-b border-[#222] bg-[#333] cursor-pointer w-full relative first:rounded-tl-[8px] first:rounded-tr-[8px] last:rounded-bl-[8px] last:rounded-br-[8px] hover:bg-[#444]">
+          <Search value={filter} onChange={setFilter} component={props.components?.search?.()} />
+        </div>
+      )}
+      {filteredList.map(item => {
+        return <ItemElement
+          key={item.key}
+          data={item}
+          delay={props.delay}
+          hide={props.onHide}
+          components={props.components}
+        >
+          {item.label}
+        </ItemElement>
+      })}
+    </div>
+  )
 }

@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700");
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500&family=Open+Sans:wght@100;200;300;400;500&family=Roboto:wght@100;200;300;400;500&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: 'Montserrat', sans-serif;
   line-height: 1.5;

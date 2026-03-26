@@ -1,5 +1,9 @@
-import { css } from 'styled-components'
 import { Presets as ReactPresets, Drag } from 'rete-react-plugin'
+
+// Simplified css helper - Tailwind handles actual styling
+// This accepts template strings for backward compatibility but returns empty string
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const css = (_strings: TemplateStringsArray, ..._args: unknown[]) => ''
 import { Node, selectedShadow } from './custom-node'
 import { InputControl, InputType, InsertControl, SelectControl, inputTypes } from 'rete-studio-core'
 import { useEffect, useState } from 'react'

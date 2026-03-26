@@ -1,32 +1,25 @@
 import * as React from 'react'
 import { ClassicPreset } from 'rete'
-import styled from 'styled-components'
 
 import { Drag } from '../../../shared'
 
-const Input = styled.input<{ styles?: (props: any) => any }>`
-  width: 100%;
-  border-radius: 30px;
-  background-color: white;
-  padding: 2px 6px;
-  border: 1px solid #999;
-  font-size: 110%;
-  box-sizing: border-box;
-  ${props => props.styles?.(props)}
-`
+type Props<N extends 'text' | 'number'> = {
+  data: ClassicPreset.InputControl<N>
+  styles?: (props: any) => any
+}
 
-export function Control<N extends 'text' | 'number'>(props: { data: ClassicPreset.InputControl<N>, styles?: () => any }) {
+export function Control<N extends 'text' | 'number'>(props: Props<N>) {
   const [value, setValue] = React.useState(props.data.value)
-  const ref = React.useRef(null)
+  const ref = React.useRef<HTMLInputElement>(null)
 
-  Drag.useNoDrag(ref)
+  Drag.useNoDrag(ref as React.MutableRefObject<HTMLElement | null>)
 
   React.useEffect(() => {
     setValue(props.data.value)
   }, [props.data.value])
 
   return (
-    <Input
+    <input
       value={value}
       type={props.data.type}
       ref={ref}
@@ -39,7 +32,7 @@ export function Control<N extends 'text' | 'number'>(props: { data: ClassicPrese
         setValue(val)
         props.data.setValue(val)
       }}
-      styles={props.styles}
+      className="w-full rounded-3xl bg-white p-0.5 px-1.5 border border-gray-400 text-base box-border"
     />
   )
 }

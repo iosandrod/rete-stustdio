@@ -1,35 +1,31 @@
 import * as React from 'react'
-import styled from 'styled-components'
 
 import { ClassicScheme } from '../types'
 import { useConnection } from './ConnectionWrapper'
 
-const Svg = styled.svg`
-    overflow: visible !important;
-    position: absolute;
-    pointer-events: none;
-    width: 9999px;
-    height: 9999px;
-`
+type Props = {
+  data: ClassicScheme['Connection'] & { isLoop?: boolean }
+  styles?: (props: any) => any
+}
 
-const Path = styled.path<{ styles?: (props: any) => any }>`
-    fill: none;
-    stroke-width: 5px;
-    stroke: steelblue;
-    pointer-events: auto;
-    ${props => props.styles?.(props)}
-`
-
-export function Connection(props: { data: ClassicScheme['Connection'] & { isLoop?: boolean }, styles?: () => any }) {
+export function Connection(props: Props) {
   const { path } = useConnection()
 
   if (!path) return null
 
   return (
-    <Svg data-testid="connection">
-      <Path
-        styles={props.styles}
-        d={path} />
-    </Svg>
+    <svg
+      data-testid="connection"
+      className="!overflow-visible absolute pointer-events-none"
+      style={{ width: '9999px', height: '9999px' }}
+    >
+      <path
+        d={path}
+        fill="none"
+        strokeWidth={5}
+        stroke="steelblue"
+        pointerEvents="auto"
+      />
+    </svg>
   )
 }

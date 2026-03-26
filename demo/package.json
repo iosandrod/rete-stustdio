@@ -34,7 +34,6 @@
     "rete-studio-core": "file:../core/rete-studio-core-0.0.0.tgz",
     "rete-studio-javascript-lang": "file:../languages/javascript/rete-studio-javascript-lang-0.0.0.tgz",
     "rete-studio-template-lang": "file:../languages/template/rete-studio-template-lang-0.0.0.tgz",
-    "styled-components": "^6.0.0",
     "usehooks-ts": "^2.9.1",
     "web-worker": "^1.2.0",
     "worker-bridge": "^0.1.0"
@@ -42,6 +41,9 @@
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.2.1",
