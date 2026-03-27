@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.5.1",
     "@vue/runtime-dom": "^3.4.0",
-    "ant-design-vue": "^4.1.0",
     "elkjs": "^0.8.2",
+    "monaco-editor": "^0.45.0",
+    "pug": "^3.0.4",
     "rete": "^2.0.3",
     "rete-area-plugin": "^2.0.2",
     "rete-auto-arrange-plugin": "^2.0.1",
@@ -22,13 +24,23 @@
     "rete-render-utils": "^2.0.2",
     "rete-scopes-plugin": "^2.0.1",
     "rete-structures": "^2.0.1",
+    "rete-studio-core": "file:../core/rete-studio-core-0.0.0.tgz",
+    "rete-studio-javascript-lang": "file:../languages/javascript/rete-studio-javascript-lang-0.0.0.tgz",
+    "rete-studio-template-lang": "file:../languages/template/rete-studio-template-lang-0.0.0.tgz",
     "rete-vue-plugin": "file:../rete-vue-plugin",
-    "vue": "^3.4.0"
+    "vue": "^3.4.0",
+    "worker-bridge": "^0.1.0"
   },
   "devDependencies": {
+    "@types/node": "^20.0.0",
     "@vitejs/plugin-vue": "^5.0.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "sass-embedded": "^1.98.0",
+    "tailwindcss": "^3.4.0",
     "typescript": "^5.0.2",
     "vite": "^5.2.11",
+    "vite-plugin-node-polyfills": "^0.25.0",
     "vue-tsc": "^2.0.0"
   }
 }

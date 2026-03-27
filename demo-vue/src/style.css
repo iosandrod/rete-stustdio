@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  background: rgb(62, 62, 62);
+}
+
+/* Editor background grid */
+.fill-area {
+  display: table;
+  z-index: -1;
+  position: absolute;
+  top: -320000px;
+  left: -320000px;
+  width: 640000px;
+  height: 640000px;
+}
+
+.background {
+  background-color: #262626;
+  opacity: 1;
+  background-image:
+    linear-gradient(#0f0f0f 1.5px, transparent 1.5px),
+    linear-gradient(90deg, #0f0f0f 1.5px, transparent 1.5px),
+    linear-gradient(#333333 1.5px, transparent 1.5px),
+    linear-gradient(90deg, #333333 1.5px, #262626 1.5px);
+  background-size: 200px 200px, 200px 200px, 25px 25px, 25px 25px;
+  background-position: -1.5px -1.5px, -1.5px -1.5px, -1.5px -1.5px, -1.5px -1.5px;
+}

@@ -1,6 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { create, destroy, update } from 'process.env.VUECOMPAT'
+// Direct import for Vue 3 compatibility layer
+import { create, destroy, update } from './vuecompat/vue3'
 
 import { type Props } from './index'
 
